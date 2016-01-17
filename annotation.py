@@ -72,15 +72,15 @@ def vote(start, finish, borders, o_labels):
             max_num = value
     return max_label
 
-
-if __name__ == "__main__":
-    filename = "G:/Seg_AR/data/example"
-    origin_labels = origin_annotation(filename)
-    segment.SENSORLIST = tools.getSensorList(filename)
-    seq_index = []
-    with open(filename, 'r') as fr:
-        for line in fr:
-            row = line.split()
-            seq_index.append(segment.SENSORLIST.index(row[2]))
-    borders = segment.seg(seq_index)
-    segment_labels = seg_labels(origin_labels, borders)
+#
+# if __name__ == "__main__":
+#     filename = "/home/chi/PycharmProjects/Seg_AR/data/example"
+#     origin_labels = origin_annotation(filename)
+#     segment.SENSORLIST = tools.getSensorList(filename)
+#     seq_index = []
+#     with open(filename, 'r') as fr:
+#         for line in fr:
+#             row = line.split()
+#             seq_index.append(segment.SENSORLIST.index(row[2]))
+#     borders = segment.seg(seq_index)
+#     segment_labels = seg_labels(origin_labels, borders)

@@ -61,4 +61,6 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 data/
-.idea/
+.idea/*.xml
+.idea/*.iml
+.idea/*.name

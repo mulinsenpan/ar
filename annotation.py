@@ -37,23 +37,25 @@ def seg_labels(o_labels, borders):
 
     :param o_labels:
     :param borders:
-    :return:
+    :return:每个事件对应的行为标号，训练数据使用的ｙ_label
     """
-    segment_labels = []
+    event_labels = []
+    y_label = []
     for index in range(0, len(borders)):
         if index == 0:
             start = 0
             finish = borders[index]
-            vote_label = vote(start, finish, borders, o_labels)
-            for i in range(start,finish+1):
-                segment_labels.append(vote_label)
         if index > 0:
             start = borders[index-1] + 1
             finish = borders[index]
-            vote_label = vote(start, finish, borders, o_labels)
-            for i in range(start,finish+1):
-                segment_labels.append(vote_label)
-    return segment_labels
+            # vote_label = vote(start, finish, borders, o_labels)
+            # for i in range(start,finish+1):
+            #     event_labels.append(vote_label)
+        vote_label = vote(start, finish, borders, o_labels)
+        y_label.append(vote_label)
+        for i in range(start,finish+1):
+            event_labels.append(vote_label)
+    return event_labels,y_label
 
 
 def vote(start, finish, borders, o_labels):

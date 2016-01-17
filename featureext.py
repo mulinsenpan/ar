@@ -4,5 +4,7 @@
 根据序列片段生成训练数据
 """
 
-
+def feature(segment):
+    vector = []
+    return vector
 

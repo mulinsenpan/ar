@@ -44,13 +44,13 @@ def seg_labels(o_labels, borders):
         if index == 0:
             start = 0
             finish = borders[index]
-            vote_label = vote(start, finish, borders, origin_labels)
+            vote_label = vote(start, finish, borders, o_labels)
             for i in range(start,finish+1):
                 segment_labels.append(vote_label)
         if index > 0:
             start = borders[index-1] + 1
             finish = borders[index]
-            vote_label = vote(start, finish, borders, origin_labels)
+            vote_label = vote(start, finish, borders, o_labels)
             for i in range(start,finish+1):
                 segment_labels.append(vote_label)
     return segment_labels

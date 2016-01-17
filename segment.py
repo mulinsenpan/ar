@@ -9,9 +9,12 @@ import copy
 
 SENSORLIST=[]
 K = 3
+FRAME_SIZE = 10
+SIM_THETA = 0.1
+GAP = 10
 
 
-def seg(sequences, frame_size=10, sim_theta=0.1):
+def seg(sequences, frame_size=FRAME_SIZE, sim_theta=SIM_THETA):
     """
     :param sequences: 传感器序列
     :param frame_size: 窗口长度
@@ -19,7 +22,6 @@ def seg(sequences, frame_size=10, sim_theta=0.1):
     :return: 候选边界集合（经过剪枝的边界）
     """
     length = len(sequences)
-    print length
     borders = []
     sim_list = []
     for i in range(frame_size, length-frame_size + 1):
@@ -36,7 +38,6 @@ def seg(sequences, frame_size=10, sim_theta=0.1):
             if sim <= sim_theta:
                 borders.append(i)
                 sim_list.append(sim)
-    print "pruning..."
     new_borders = prunborders(borders,sim_list)
     new_borders.append(length-1)
     return new_borders
@@ -117,7 +118,7 @@ def isContinue(borders, current):
     for index in range(current,len(borders)):
         later = index + 1
         try:
-            if borders[later] - borders[index] < 10:
+            if borders[later] - borders[index] < GAP:
                 continue_index.append(index)
             else:
                 return continue_index

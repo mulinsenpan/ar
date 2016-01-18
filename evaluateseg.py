@@ -14,20 +14,21 @@ import tools
 from sklearn.metrics import confusion_matrix
 
 
-def confusionmatrix():
-    filename = "/home/chi/PycharmProjects/Seg_AR/data/example"
-    origin_labels = annotation.origin_annotation(filename)
-    segment.SENSORLIST = tools.getSensorList(filename)
-    seq_index = []
-    with open(filename, 'r') as fr:
-        for line in fr:
-            row = line.split()
-            seq_index.append(segment.SENSORLIST.index(row[2]))
-    borders = segment.seg(seq_index)
-    segment_labels = annotation.seg_labels(origin_labels, borders)
-    cm = confusion_matrix(origin_labels,segment_labels)
+def confusionmatrix(segment_labels, true_labels):
+    # filename = "/home/chi/PycharmProjects/Seg_AR/data/example"
+    # origin_labels = annotation.origin_annotation(filename)
+    # segment.SENSORLIST = tools.getSensorList(filename)
+    # seq_index = []
+    # with open(filename, 'r') as fr:
+    #     for line in fr:
+    #         row = line.split()
+    #         seq_index.append(segment.SENSORLIST.index(row[2]))
+    # borders = segment.seg(seq_index)
+    # segment_labels = annotation.seg_labels(origin_labels, borders)
+    cm = confusion_matrix(true_labels, segment_labels)
+    accu = accuracy(cm)
+    return accu, cm
 
-    return cm
 
 def accuracy(cm):
     row_num = len(cm)
@@ -36,26 +37,30 @@ def accuracy(cm):
         right_num += cm[i][i]
     total_num = sum(cm.sum(0))
 
-    return float(right_num)/float(total_num)
+    return float(right_num) / float(total_num)
+
 
 if __name__ == "__main__":
 
-    result =[]
+    filename = "/home/chi/PycharmProjects/Seg_AR/data/example"
+    result = []
+    origin_labels = annotation.origin_annotation(filename)
+    segment.SENSORLIST = tools.getSensorList(filename)
+    seq_index = []
+    with open(filename, 'r') as fr:
+        for line in fr:
+            row = line.split()
+            seq_index.append(segment.SENSORLIST.index(row[2]))
 
-    frame_sizes = range(10,150,5)
-    sim_thetas = [0,0.05,0.1,0.15,0.2,0.25,0.5]
+    frame_sizes = range(10, 150, 5)
+    sim_thetas = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.5]
     for size in frame_sizes:
         for sim in sim_thetas:
-            for gap in frame_sizes:
-                segment.FRAME_SIZE = size
-                segment.SIM_THETA = sim
-                segment.GAP = gap
-                a = confusionmatrix()
-                accu = accuracy(a)
-                print size,sim,gap,accu
-                result.append([size,sim,gap,accu])
+            borders = segment.seg(seq_index, size, sim)
+            segment_labels = annotation.seg_labels(origin_labels, borders)
 
-
-
-
+            a = confusionmatrix(segment_labels,origin_labels)
+            accu = accuracy(a)
+            print size, sim, accu
+            result.append([size, sim, accu])
 

@@ -11,7 +11,6 @@ SENSORLIST=[]
 K = 3
 FRAME_SIZE = 10
 SIM_THETA = 0.1
-GAP = 10
 
 
 def seg(sequences, frame_size=FRAME_SIZE, sim_theta=SIM_THETA):
@@ -77,7 +76,6 @@ def distance_ed(vector1, vector2):
             sum_zero += (float(vector1[index]-vector2[index])**2)
         index += 1
     ed =  (sum_none_zero ** 0.5) +  (sum_zero ** 0.5)
-    print ed
     return ed
 
 
@@ -87,7 +85,6 @@ def sim_cos(vector1,vector2):
     :param vector2: right
     :return: 余弦相似度
     """
-    cos = 0
     numerator = sum((vector1[i] * vector2[i]) for i in range(len(vector1))) + 0.0
     denominator = ((sum(value1 ** 2 for value1 in vector1))**0.5) * ((sum(value1 ** 2 for value1 in vector1))**0.5)
 
@@ -118,11 +115,18 @@ def isContinue(borders, current):
     for index in range(current,len(borders)):
         later = index + 1
         try:
-            if borders[later] - borders[index] < GAP:
+            if borders[later] - borders[index] < 10:
                 continue_index.append(index)
             else:
                 return continue_index
         except:
             print index, later
 
+
+# if __name__ == "__main__":
+#     borders =[10,11,13,16,19,35,49,80,112,113,114,158,190,200,250]
+#
+#     sim_list =[0.1,0.2,0.3,0.1,0.5,0.6,0.4,0.3,0.6,0.2,0.4,0.6,0.7,0.2,0.1]
+#     new_borders= prunborders(borders,sim_list)
+#     print new_borders
 

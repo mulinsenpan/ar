@@ -52,10 +52,10 @@ def seg_labels(o_labels, borders):
             # for i in range(start,finish+1):
             #     event_labels.append(vote_label)
         vote_label = vote(start, finish, borders, o_labels)
-        y_label.append(vote_label)
+        # y_label.append(vote_label)
         for i in range(start,finish+1):
             event_labels.append(vote_label)
-    return event_labels,y_label
+    return event_labels
 
 
 def vote(start, finish, borders, o_labels):
@@ -74,7 +74,7 @@ def vote(start, finish, borders, o_labels):
             max_num = value
     return max_label
 
-#
+
 # if __name__ == "__main__":
 #     filename = "/home/chi/PycharmProjects/Seg_AR/data/example"
 #     origin_labels = origin_annotation(filename)
@@ -86,3 +86,4 @@ def vote(start, finish, borders, o_labels):
 #             seq_index.append(segment.SENSORLIST.index(row[2]))
 #     borders = segment.seg(seq_index)
 #     segment_labels = seg_labels(origin_labels, borders)
+#     print len(segment_labels)
